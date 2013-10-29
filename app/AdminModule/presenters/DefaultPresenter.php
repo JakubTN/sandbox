@@ -10,7 +10,7 @@ class DefaultPresenter extends \BasePresenter
 
         $this->user->getStorage()->setNamespace('admin');
         if(!$this->user->isLoggedIn()) {
-            //$this->redirect('Sign:in');
+            $this->redirect('Sign:in');
         }
 
         $this->template->metaTitle = 'Administrácia | example.com';
