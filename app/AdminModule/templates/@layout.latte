@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="robots" content="noindex">
+	<meta name="author" content="Frio.sk">
+
+	<title>{ifset $metaTitle}{$metaTitle}{/ifset}</title>
+
+	<link href="{$basePath}/adminlayout/css/bootstrap.css" rel="stylesheet">
+	<link href="{$basePath}/adminlayout/css/bootstrap-theme.css" rel="stylesheet">
+	<link href="{$basePath}/adminlayout/css/main.css" rel="stylesheet">
+	<link href="{$basePath}/adminlayout/css/datepicker/classic.css" rel="stylesheet">
+	<link href="{$basePath}/adminlayout/css/datepicker/classic.date.css" rel="stylesheet">
+
+	<script src="{$basePath}/adminlayout/js/netteForms.js"></script>
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="{$basePath}/adminlayout/js/html5shiv.js"></script>
+	<script src="{$basePath}/adminlayout/js/respond.min.js"></script>
+	<![endif]-->
+	{block head}{/block}
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" n:href="Default:" title="ProjectName">ProjectName</a>
+		</div>
+
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+				{*<li class="{ifCurrent Users:*}{*active{/ifCurrent}"><a n:href="Users:">Užívatelia</a></li>*}
+				{*<li class="{ifCurrent Projects:*}{*active{/ifCurrent}"><a n:href="Projects:">Projekty</a></li>*}
+				{*<li class="dropdown {ifCurrent Content:*}{*active{/ifCurrent}">*}
+					{*<a n:href="Content:" title="Obsah" class="dropdown-toggle" data-toggle="dropdown">Obsah <b class="caret"></b></a>*}
+					{*<ul class="dropdown-menu">*}
+						{*<li><a n:href="Content:default" title="Podstránky">Podstránky</a></li>*}
+						{*<li><a n:href="Content:slideshow" title="Slideshow">Slideshow</a></li>*}
+					{*</ul>*}
+				{*</li>*}
+				{*<li class="dropdown {ifCurrent Settings:*}{*active{/ifCurrent}">*}
+					{*<a n:href="Settings:" title="Nastavenia" class="dropdown-toggle" data-toggle="dropdown">Nastavenia <b class="caret"></b></a>*}
+					{*<ul class="dropdown-menu">*}
+						{*<li><a n:href="Settings:" title="Všeobecné">Všeobecné</a></li>*}
+						{*<li><a n:href="Settings:users" title="Užívatelia">Užívatelia</a></li>*}
+						{*<li><a n:href="Settings:projectcategory" title="Kategórie projektov">Kategórie projektov</a></li>*}
+					{*</ul>*}
+				{*</li>*}
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{$user->identity->name} {$user->identity->surname} <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a n:href="Settings:myAccount" title="Moje konto">Moje konto</a></li>
+						<li><a n:href="Sign:out" title="Odhlásiť">Odhlásiť</a></li>
+					</ul>
+				</li>
+				<li><a n:href="Sign:out" title="Odhlásiť"><span class="glyphicon glyphicon-off"></span></a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container -->
+</nav>
+
+<div class="container">
+	{snippet flashMessage}
+		<div n:foreach="$flashes as $flash" class="alert alert-dismissable fade in {$flash->type}">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			{$flash->message}
+		</div>
+	{/snippet flashMessage}
+
+	<div class="row">
+		{ifset $sideBar}
+			<div class="col-md-3">
+				<div class="well well-small sidebar-nav">
+					<ul class="nav">
+						{foreach $sideBar as $item}
+							{if $item['url'] && $item['url']!='divider'}
+								<li {ifCurrent $item['url']}class="active"{/ifCurrent}><a n:href="$item['url']">{$item['title']}</a></li>
+							{elseif $item['url']=='divider'}
+								<li class="divider"></li>
+							{else}
+								<li class="nav-header">{$item['title']}</li>
+							{/if}
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+		{/ifset}
+
+		<div class="col-md-{$grid}">
+			{ifset $breadcrumb}
+				<ol class="breadcrumb">
+					<li><a n:href="Default:default"><span class="glyphicon glyphicon-home"></span></a></li>
+					{foreach $breadcrumb as $b}
+						{ifCurrent $b['url']}
+							<li class="active">{$b['title']}</li>
+						{elseif isset($b['param'])}
+							<li><a n:href="$b['url'], $b['param']">{$b['title']}</a></li>
+						{else}
+							<li><a n:href="$b['url']">{$b['title']}</a></li>
+						{/ifCurrent}
+					{/foreach}
+				</ol>
+			{/ifset}
+
+			{include #content}
+		</div>
+	</div>
+</div><!-- /.container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<script type="text/javascript">
+	window.info = {};
+	window.info.basePath = {$basePath};
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{$basePath}/adminlayout/js/jquery-2.0.3.min.js"><\/script>')</script>
+<script src="{$basePath}/adminlayout/js/bootstrap.min.js"></script>
+<script src="{$basePath}/adminlayout/js/nette.ajax.js"></script>
+<script src="{$basePath}/adminlayout/js/legacy.js"></script>
+<script src="{$basePath}/adminlayout/js/picker.js"></script>
+<script src="{$basePath}/adminlayout/js/picker.date.js"></script>
+<script src="{$basePath}/adminlayout/ckeditor/ckeditor.js"></script>
+<script src="{$basePath}/adminlayout/js/main.js"></script>
+{block scripts}{/block}
+</body>
+</html>

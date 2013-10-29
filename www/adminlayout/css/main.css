@@ -1,0 +1,42 @@
+body {
+  padding-top: 70px;
+}
+h2 span.badge {
+	vertical-align: middle;
+}
+#ajax-spinner { 
+	background: #b9b9b9 url(../img/ajax-spinner.gif) no-repeat center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	opacity: 0.4;
+	height: 100%;
+	width: 100%;
+	z-index: 9999;
+}
+.tab-content {
+	margin-top: 15px;
+}
+.btn {
+    margin-bottom: 5px;
+}
+.form-group input[type="checkbox"] {
+    width: auto;
+    display: inline;
+    margin-right: 10px;
+}
+.form-group input[type="radio"] {
+    width: auto;
+    display: inline;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+.form-group input[type="checkbox"]+label {
+    display: inline;
+}
+
+@media (min-width: 768px) {
+	a.btn.top-margined {
+		margin-top: 20px;
+	}	
+}
